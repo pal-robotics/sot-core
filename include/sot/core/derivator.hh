@@ -50,6 +50,7 @@ template< class T >
 class Derivator
 :public dg::Entity
 {
+  DYNAMIC_GRAPH_ENTITY_DECL();
  protected:
   T memory;
   bool initialized;
@@ -59,7 +60,6 @@ class Derivator
  public: /* --- CONSTRUCTION --- */
 
   static std::string getTypeName( void ) { return "Unknown"; }
-  static const std::string CLASS_NAME;
 
   Derivator( const std::string& name )
     : dg::Entity(name)

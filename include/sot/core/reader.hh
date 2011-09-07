@@ -70,10 +70,7 @@ using dynamicgraph::sot::Flags;
 class SOTREADER_EXPORT sotReader
 : public Entity
 {
- public: 
-  static const std::string CLASS_NAME;
-  virtual const std::string& getClassName( void ) { return CLASS_NAME; }
-
+  DYNAMIC_GRAPH_ENTITY_DECL();
  public: 
 
   SignalPtr< Flags,int > selectionSIN;

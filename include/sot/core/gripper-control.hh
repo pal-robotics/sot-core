@@ -61,6 +61,7 @@ namespace dg = dynamicgraph;
 
 class SOTGRIPPERCONTROL_EXPORT GripperControl
 {
+  DYNAMIC_GRAPH_ENTITY_DECL();
  protected:
 
   double offset;
@@ -103,8 +104,8 @@ class SOTGRIPPERCONTROL_EXPORT GripperControl
 class SOTGRIPPERCONTROL_EXPORT GripperControlPlugin
 :public dg::Entity, public GripperControl
 {
+  DYNAMIC_GRAPH_ENTITY_DECL();
  public:
-  static const std::string CLASS_NAME;
   bool calibrationStarted;
 
 
