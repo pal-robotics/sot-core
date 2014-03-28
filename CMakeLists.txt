@@ -13,16 +13,25 @@
 # received a copy of the GNU Lesser General Public License along with
 # sot-core. If not, see <http://www.gnu.org/licenses/>.
 
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8.3)
 
-INCLUDE(cmake/base.cmake)
-INCLUDE(cmake/boost.cmake)
-INCLUDE(cmake/lapack.cmake)
-INCLUDE(cmake/cpack.cmake)
+find_package(catkin REQUIRED COMPONENTS sot_cmake dynamic-graph-python jrl-mal)
+
+INCLUDE(${SOT_CMAKE_DIR}/base.cmake)
+INCLUDE(${SOT_CMAKE_DIR}/boost.cmake)
+INCLUDE(${SOT_CMAKE_DIR}/lapack.cmake)
+INCLUDE(${SOT_CMAKE_DIR}/cpack.cmake)
 
 SET(PROJECT_NAME sot-core)
 SET(PROJECT_DESCRIPTION "Hierarchical task solver plug-in for dynamic-graph.")
 SET(PROJECT_URL "http://github.com/jrl-umi3218/sot-core")
+
+include_directories(${catkin_INCLUDE_DIRS})
+
+catkin_package(
+  INCLUDE_DIRS include
+  CATKIN_DEPENDS dynamic-graph
+)
 
 SET(CUSTOM_HEADER_DIR "sot/core")
 
@@ -44,14 +53,10 @@ PKG_CONFIG_APPEND_LIBS("sot-core")
 SET(BOOST_COMPONENTS thread filesystem program_options unit_test_framework system regex )
 SEARCH_FOR_BOOST()
 
-ADD_REQUIRED_DEPENDENCY("jrl-mal >= 1.8.0")
-ADD_REQUIRED_DEPENDENCY("dynamic-graph >= 1.0.0")
-ADD_REQUIRED_DEPENDENCY("dynamic-graph-python")
-
 ADD_SUBDIRECTORY(include)
 ADD_SUBDIRECTORY(src)
-ADD_SUBDIRECTORY(unitTesting)
-ADD_SUBDIRECTORY(doc)
+#ADD_SUBDIRECTORY(unitTesting)
+#ADD_SUBDIRECTORY(doc)
 
 SETUP_PROJECT_FINALIZE()
 SETUP_PROJECT_CPACK()
