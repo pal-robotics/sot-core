@@ -38,66 +38,6 @@ ENDIF(UNIX)
 # The main library name
 SET(SOTCORE_LIB_NAME ${PROJECT_NAME})
 
-#This project will create many plugins as shared libraries, listed here
-SET(plugins
-  sot/sot-qr
-  sot/weighted-sot
-  sot/sot-h
-  sot/sot
-
-  math/op-point-modifier
-
-  matrix/operator
-  matrix/derivator
-  matrix/fir-filter
-  matrix/integrator-abstract
-  matrix/integrator-euler
-  matrix/matrix-constant
-  matrix/vector-constant
-  matrix/vector-to-rotation
-
-  task/gain-adaptive
-  task/task-pd
-  task/constraint
-  task/gain-hyperbolic
-  task/task
-  task/task-conti
-  task/task-unilateral
-
-  feature/feature-point6d
-  feature/feature-vector3
-  feature/feature-generic
-  feature/feature-joint-limits
-  feature/feature-1d
-  feature/feature-point6d-relative
-  feature/feature-visual-point
-  feature/feature-task
-  feature/feature-line-distance
-  feature/feature-posture
-  feature/visual-point-projecter
-
-  traces/reader
-
-  tools/time-stamp
-  tools/timer
-  tools/seq-play
-  tools/sequencer
-  tools/robot-simu
-  tools/motion-period
-  tools/neck-limitation
-  tools/mailbox-vector
-  tools/kalman
-  tools/joint-limitator
-  tools/gripper-control
-  tools/com-freezer
-  tools/clamp-workspace
-  tools/binary-int-to-uint
-  tools/periodic-call-entity
-  tools/joint-trajectory-entity
-
-  control/control-gr
-  control/control-pd
-  )
 
 # TODO
 IF(WIN32)
@@ -174,6 +114,8 @@ ADD_LIBRARY(${LIBRARY_NAME}
   SHARED
   ${${LIBRARY_NAME}_SOURCES})
 
+target_link_libraries(${LIBRARY_NAME} ${catkin_LIBRARIES})
+
 SET_TARGET_PROPERTIES(${LIBRARY_NAME}
   PROPERTIES
   SOVERSION ${PROJECT_VERSION}
@@ -207,8 +149,9 @@ FOREACH(plugin ${plugins})
   #remove the "lib" prefix from the plugin output name
   SET_TARGET_PROPERTIES(${LIBRARY_NAME}
     PROPERTIES
-    PREFIX "")
-
+    LIBRARY_OUTPUT_DIRECTORY ${DYNAMIC_GRAPH_PLUGINDIR}
+  )
+  
   SET_TARGET_PROPERTIES(${LIBRARY_NAME}
     PROPERTIES
     SOVERSION ${PROJECT_VERSION}
@@ -238,12 +181,13 @@ FOREACH(plugin ${plugins})
   # build python submodule
   STRING(REPLACE - _ PYTHON_LIBRARY_NAME ${LIBRARY_NAME})
   DYNAMIC_GRAPH_PYTHON_MODULE("sot/core/${PYTHON_LIBRARY_NAME}"
-    ${LIBRARY_NAME}
+    ""
     sot-core-${PYTHON_LIBRARY_NAME}-wrap
     )
+  target_link_libraries(sot-core-${PYTHON_LIBRARY_NAME}-wrap ${LIBRARY_NAME})
   # Install plugins
   INSTALL(TARGETS ${LIBRARY_NAME}
-    DESTINATION ${DYNAMIC_GRAPH_PLUGINDIR})
+    DESTINATION lib/dynamic-graph)
 ENDFOREACH(plugin)
 
 # Bindings Python

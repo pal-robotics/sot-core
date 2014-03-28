@@ -28,8 +28,75 @@ SET(PROJECT_URL "http://github.com/jrl-umi3218/sot-core")
 
 include_directories(${catkin_INCLUDE_DIRS})
 
+#This project will create many plugins as shared libraries, listed here
+SET(plugins
+  sot/sot-qr
+  sot/weighted-sot
+  sot/sot-h
+  sot/sot
+
+  math/op-point-modifier
+
+  matrix/operator
+  matrix/derivator
+  matrix/fir-filter
+  matrix/integrator-abstract
+  matrix/integrator-euler
+  matrix/matrix-constant
+  matrix/vector-constant
+  matrix/vector-to-rotation
+
+  task/gain-adaptive
+  task/task-pd
+  task/constraint
+  task/gain-hyperbolic
+  task/task
+  task/task-conti
+  task/task-unilateral
+
+  feature/feature-point6d
+  feature/feature-vector3
+  feature/feature-generic
+  feature/feature-joint-limits
+  feature/feature-1d
+  feature/feature-point6d-relative
+  feature/feature-visual-point
+  feature/feature-task
+  feature/feature-line-distance
+  feature/feature-posture
+  feature/visual-point-projecter
+
+  traces/reader
+
+  tools/time-stamp
+  tools/timer
+  tools/seq-play
+  tools/sequencer
+  tools/robot-simu
+  tools/motion-period
+  tools/neck-limitation
+  tools/mailbox-vector
+  tools/kalman
+  tools/joint-limitator
+  tools/gripper-control
+  tools/com-freezer
+  tools/clamp-workspace
+  tools/binary-int-to-uint
+  tools/periodic-call-entity
+  tools/joint-trajectory-entity
+
+  control/control-gr
+  control/control-pd
+  )
+
+foreach(plugin ${plugins})
+  get_filename_component(l ${plugin} NAME)
+  list(APPEND export_libs ${l})
+endforeach()
+
 catkin_package(
   INCLUDE_DIRS include
+  LIBRARIES ${export_libs}
   CATKIN_DEPENDS dynamic-graph
 )
 
