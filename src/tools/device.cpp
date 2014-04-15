@@ -141,7 +141,8 @@ Device( const std::string& n )
   forcesSOUT[3] =
     new Signal<ml::Vector, int>("OpenHRP::output(vector6)::forceLARM");
 
-  signalRegistration( controlSIN<<stateSOUT<<velocitySOUT<<attitudeSOUT
+  //Deleted velocitySOUT
+  signalRegistration( controlSIN<<stateSOUT<<attitudeSOUT
               <<attitudeSIN<<zmpSIN <<*forcesSOUT[0]<<*forcesSOUT[1]
               <<*forcesSOUT[2]<<*forcesSOUT[3] <<previousControlSOUT
               <<pseudoTorqueSOUT << motorcontrolSOUT << ZMPPreviousControllerSOUT );
