@@ -96,7 +96,8 @@ endforeach()
 
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES ${export_libs}
+  LIBRARIES ${PROJECT_NAME}
+ # LIBRARIES ${export_libs}
   CATKIN_DEPENDS dynamic-graph
 )
 
